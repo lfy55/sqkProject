@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/index/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <div class="item-margin" v-for="item in list" @click="click(item)">
+            <div class="item">
+                <div class="img">
+                    <img :src="item.img" :alt="item.name">
+                </div>
+                <span class="title" v-text="item.name"></span>
+            </div>
+        </div>
+    </div>
+    <script src="js/lib/vue-2.1.10.js"></script>
+    <script src="js/index/main.js"></script>
+</body>
+
+</html>
