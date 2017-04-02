@@ -8,7 +8,7 @@ var chartsList = [{
     "img": "img/nianluntu1.png"
 }, {
     "name": "单人靶向图",
-    "url": "baxiangguangxitu.html",
+    "url": "baxiangguanxitu.html",
     "img": "img/baxiangguangxi.png"
 }]
 
