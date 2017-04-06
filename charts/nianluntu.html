@@ -7,56 +7,75 @@
     <style>
         #main {
             position: absolute;
-            width: 1200px;
-            height: 800px;
-            /*border: solid 1px #333;*/
+            width: 600px;
+            height: 400px;
+        }
+        
+        .charts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 3px 5px;
+            width: 100px;
+            height: auto;
+            border: solid 1px #00adfe;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #666;
+            z-index: 99;
+        }
+        
+        button {
+            position: absolute;
+            top: 600px;
         }
     </style>
 </head>
 
 <body>
     <div id="main">
-
+        <nianluntu-bujunfen :data-config="data" :style-config="style"></nianluntu-bujunfen>
+        <button @click="changeWH">修改</button>
     </div>
 </body>
 <script src="js/lib/vue-2.1.10.js"></script>
+<script src="js/nianluntu/nianluntu.bujunfen.js"></script>
 <script src="js/lib/jquery.min.js"></script>
 <script src="js/lib/d3-3.5.17/d3.js"></script>
 <script>
-    Vue.component({
-        template: '<div class="charts" id="relation-div"></div>',
-    });
-    var width = 800;
-    var height = 600;
-    var svg = d3.select("#main").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-    var baseouter = (height - 60) / 2;
-    var baseinner = 0;
-    var baseNum = (baseouter - baseinner) / 10;
-    for (let index = 0; index < 7; index++) {
-        let inner = 0;
-        let outer = 0;
-        // if(index == 0) {
-        // inner = baseinner;
-        // outer = baseinner + 2*baseNum;
-        // } else {
-        // inner = baseinner + (index+1)*baseNum;
-        // outer = baseinner + (index+2)*baseNum;
-        // }
-        inner = baseinner + (index + 3) * baseNum;
-        outer = baseinner + (index + 4) * baseNum;
-        let dataset = [];
-        for (let i = 0; i < 12; i++) {
-            dataset.push({
-                name: i + 'h',
-                value: 1,
-                data: [
-                    // {name:'a',value:1},
-                    // {name:'b',value:2},
-                    // {name:'c',value:3},
-                    // {name:'d',value:4}
-                    {
+    function getD() {
+        myData = [{
+            name: '4月1号',
+            data: []
+        }, {
+            name: '4月2号',
+            data: []
+        }, {
+            name: '4月3号',
+            data: []
+        }, {
+            name: '4月4号',
+            data: []
+        }, {
+            name: '4月5号',
+            data: []
+        }, {
+            name: '4月6号',
+            data: []
+        }, {
+            name: '4月7号',
+            data: []
+        }, ];
+        myData.forEach((item, index) => {
+            for (let i = 0; i < 12; i++) {
+                item.data.push({
+                    name: i * 2 + 'H - ' + (i * 2 + 2) + 'H',
+                    value: 1,
+                    data: [{
                         name: index + 'a',
                         value: Math.floor(Math.random() * 5)
                     }, {
@@ -68,143 +87,33 @@
                     }, {
                         name: index + 'd',
                         value: Math.floor(Math.random() * 5)
-                    }
-                ]
-            });
-        }
-        dataset[0].data = [{
-            name: 'a',
-            value: 1
-        }, {
-            name: 'b',
-            value: 1
-        }, {
-            name: 'c',
-            value: 1
-        }, {
-            name: 'd',
-            value: 1
-        }];
-        let pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) {
-                return d.value;
-            });
-        let piedata = pie(dataset);
-
-        for (let i = 0; i < piedata.length; i++) {
-            let subpie = d3.layout.pie()
-                .sort(null)
-                .startAngle(piedata[i].startAngle)
-                .endAngle(piedata[i].endAngle)
-                .value(function(d) {
-                    return d.value;
+                    }]
                 });
-            piedata[i].data.data = subpie(piedata[i].data.data);
-        }
-        console.log(piedata);
+            }
+        });
 
-
-
-        let arc = d3.svg.arc()
-            .innerRadius(inner)
-            .outerRadius(outer);
-
-        let arcs = svg.selectAll('.g' + index)
-            .data(piedata)
-            .enter()
-            .append('g')
-            .attr('class', 'g' + index)
-            .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
-
-        arcs.append("path")
-            .attr("fill", "rgba(0,0,0,0)")
-            .attr("stroke", function(d, i) {
-                return '#ff0000'; // 边框颜色
-            })
-            .attr("stroke-width", '1px')
-            .attr("d", function(d) {
-                // console.log(d);
-                return arc(d);
-            });
-
-        if (index === 1) {
-            arcs.append("line")
-                .attr("stroke", "#f00")
-                .attr("stroke-width", "1px")
-                .attr("x1", function(d) {
-                    return baseouter * (Math.sin(d.startAngle));
-                })
-                .attr("y1", function(d) {
-                    return baseouter * (Math.cos(d.startAngle));
-                })
-                .attr("x2", function(d) {
-                    return (baseouter + 10) * (Math.sin(d.startAngle));
-                })
-                .attr("y2", function(d) {
-                    return (baseouter + 10) * (Math.cos(d.startAngle));
-                });
-
-            arcs.append("text")
-                .attr("x", function(d) {
-                    return (baseouter + 20) * (Math.sin(d.startAngle));
-                })
-                .attr("y", function(d) {
-                    return -(baseouter + 20) * (Math.cos(d.startAngle));
-                })
-                //.attr("text-anchor","middle")
-                .attr("dx", "-4")
-                .attr("dy", "5")
-                .text(function(d, i) {
-                    return i * 2;
-                });
-        }
-
-        arcs.append("path")
-            .attr("fill", function(d, i) {
-                return '#2d80fe'; // 第一个小格
-            })
-            .attr("d", function(d) {
-                // console.log(d);
-                return arc(d.data.data[0]);
-            })
-            .on("click", function(e) {
-                console.log(e.data.data[0].data.name);
-            });
-        arcs.append("path")
-            .attr("fill", function(d, i) {
-                return '#d442f8'; // 第二个小格
-            })
-            .attr("d", function(d) {
-                // console.log(d);
-                return arc(d.data.data[1]);
-            })
-            .on("click", function(e) {
-                console.log(e.data.data[1].data.name);
-            });
-        arcs.append("path")
-            .attr("fill", function(d, i) {
-                return '#f89406'; // 第三个小格
-            })
-            .attr("d", function(d) {
-                // console.log(d);
-                return arc(d.data.data[2]);
-            })
-            .on("click", function(e) {
-                console.log(e.data.data[2].data.name);
-            });
-        arcs.append("path")
-            .attr("fill", function(d, i) {
-                return '#29e926'; // 第四个小格
-            })
-            .attr("d", function(d) {
-                // console.log(d);
-                return arc(d.data.data[3]);
-            })
-            .on("click", function(e) {
-                console.log(e.data.data[3].data.name);
-            });
+        return myData;
     }
+
+    var vm = new Vue({
+        el: '#main',
+        data: {
+            data: getD(),
+            style: {
+                width: 400,
+                height: 400
+            }
+        },
+        methods: {
+            changeWH: function() {
+                this.data = getD();
+                this.style = {
+                    width: 400,
+                    height: 300
+                };
+            }
+        }
+    });
 </script>
 
 </html>
