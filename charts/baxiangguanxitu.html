@@ -7,263 +7,47 @@
     <style>
         #danren {
             position: absolute;
+            top: 10px;
             width: 500px;
             height: 500px;
-            border: solid 1px #00adfe;
+            /*border: solid 1px #00adfe;*/
         }
         
         .charts {
+            position: absolute;
             width: 100%;
             height: 100%;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 3px 5px;
+            width: 100px;
+            height: auto;
+            border: solid 1px #00adfe;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #666;
+            z-index: 99;
+        }
+        
+        button {
+            position: absolute;
+            top: 600px;
         }
     </style>
 </head>
 
 <body>
     <div id="danren">
-        <danren :data-config="forceData"></danren>
+        <danren :data-config="forceData" :style-config="style"></danren>
+        <button @click="changeWH">修改</button>
     </div>
     <script src="js/lib/vue-2.1.10.js"></script>
+    <script src="js/baxiangguanxitu/danren-relation.js"></script>
     <script src="js/lib/d3-3.5.17/d3.js"></script>
     <script src="js/lib/jquery.min.js"></script>
     <script>
-        Vue.component('danren', {
-            template: '<div class="charts" id="relation-div"></div>',
-            props: {
-                dataConfig: Object
-            },
-            mounted: function() {
-                // var dataset = this.dataConfig;
-                console.log(this.dataConfig);
-                var _this = this;
-                var temp = Math.floor((_this.dataConfig.max - _this.dataConfig.min) / 3);
-                var scoreData = ['一级关系', '二级关系', '三级关系'];
-                var hScale = $("#relation-div").height() / 500;
-                var wScale = $("#relation-div").width() / 500;
-                var h = 500 * hScale;
-                var w = 500 * wScale;
-
-                var svg = d3.select("#relation-div").append("svg")
-                    .attr("width", w)
-                    .attr("height", h);
-
-                var force = d3.layout.force()
-                    .nodes(_this.dataConfig.nodes)
-                    .links(_this.dataConfig.links)
-                    .size([w - 25, h + 20])
-                    .linkDistance(function(d) {
-                        var lineLong = 150 * hScale;
-                        if (d.target.value > (_this.dataConfig.min + 2 * temp)) {
-                            lineLong = 50 * hScale;
-                        } else if (d.target.value <= (_this.dataConfig.min + 2 * temp) && d.target.value > (_this.dataConfig.min + temp)) {
-                            lineLong = 100 * hScale;
-                        } else if (d.target.value <= (_this.dataConfig.min + temp)) {
-                            lineLong = 150 * hScale;
-                        }
-                        return lineLong;
-                    })
-                    .friction(0.5)
-                    .charge(-300 * hScale);
-
-                force.start();
-                // console.log(dataset);
-
-                svg.append("circle")
-                    .attr("class", "bg")
-                    .attr("fill", "none")
-                    .attr("stroke", "rgba(38, 46, 146, 0.8)")
-                    //.attr("opacity", 0)
-                    .attr("cx", w / 2 - 50)
-                    .attr("cy", h / 2 + 20)
-                    .attr("r", 150 * hScale);
-
-                svg.append("circle")
-                    .attr("class", "bg")
-                    .attr("fill", "none")
-                    .attr("stroke", "rgba(38, 46, 146, 0.8)")
-                    //.attr("opacity", 0)
-                    .attr("cx", w / 2 - 50)
-                    .attr("cy", h / 2 + 20)
-                    .attr("r", 100 * hScale);
-
-                svg.append("circle")
-                    .attr("class", "bg")
-                    .attr("fill", "none")
-                    .attr("stroke", "rgba(38, 46, 146, 0.8)")
-                    //.attr("opacity", 0)
-                    .attr("cx", w / 2 - 50)
-                    .attr("cy", h / 2 + 20)
-                    .attr("r", 50 * hScale);
-
-                svg.append("circle")
-                    .attr("class", "bg")
-                    .attr("fill", "none")
-                    .attr("stroke", "rgba(38, 46, 146, 0.8)")
-                    //.attr("opacity", 0)
-                    .attr("cx", w / 2 - 50)
-                    .attr("cy", h / 2 + 20)
-                    .attr("r", 10 * hScale);
-
-                var edges = svg.selectAll("line")
-                    .data(_this.dataConfig.links)
-                    .enter()
-                    .append("line")
-                    .style("stroke", "rgba(38, 46, 146, 0.8)")
-                    .style("opacity", 0.3)
-                    .style("stroke-width", 1 * hScale);
-
-                var nodes = svg.selectAll(".Pcircle")
-                    .data(_this.dataConfig.nodes)
-                    .enter()
-                    .append("circle")
-                    .attr("class", "Pcircle")
-                    .attr("r", function(d) {
-                        if (d.isCenter) {
-                            return 10 * hScale;
-                        }
-                        return 5 * hScale;
-                    })
-                    .style("fill", function(d) {
-                        if (d.value > (_this.dataConfig.min + 2 * temp)) {
-                            return "#e67f00";
-                        } else if (d.value <= (_this.dataConfig.min + 2 * temp) && d.value > (_this.dataConfig.min + temp)) {
-                            return "#339192";
-                        } else if (d.value <= (_this.dataConfig.min + temp)) {
-                            return "#008aea";
-                        }
-                        if (d.isCenter) {
-                            return "#e00";
-                        }
-                    })
-                    .on("click", function(d) {
-                        // draw.openOneDlgDiv(d.nodes[0].nodeId, d.nodes[0].nodeType);
-                    })
-                    .call(force.drag);
-
-                var legend = svg.selectAll(".legend")
-                    .data(scoreData)
-                    .enter()
-                    .append("circle")
-                    .attr("fill", function(d) {
-                        if (d == "一级关系") {
-                            return "#008aea";
-                        }
-                        if (d == "二级关系") {
-                            return "#339192";
-                        }
-                        if (d == "三级关系") {
-                            return "#e67f00";
-                        }
-                    })
-                    .attr("cx", w * 0.77)
-                    .attr("cy", function(d) {
-                        if (d == "一级关系") {
-                            return 340 * 0.4 * hScale;
-                        }
-                        if (d == "二级关系") {
-                            return (340 * 0.4 + 25) * hScale;
-                        }
-                        if (d == "三级关系") {
-                            return (340 * 0.4 + 25 * 2) * hScale;
-                        }
-                    })
-                    .attr("r", 5);
-                var legendText = svg.selectAll(".legend-text")
-                    .data(scoreData)
-                    .enter()
-                    .append("text")
-                    .attr("fill", function(d) {
-                        if (d == "一级关系") {
-                            return "#008aea";
-                        }
-                        if (d == "二级关系") {
-                            return "#339192";
-                        }
-                        if (d == "三级关系") {
-                            return "#e67f00";
-                        }
-                    })
-                    .attr("font-size", "14px")
-                    //.attr("text-anchor", "middle")
-                    .attr("x", w * 0.8)
-                    .attr("y", function(d) {
-                        if (d == "一级关系") {
-                            return 340 * 0.4 * hScale;
-                        }
-                        if (d == "二级关系") {
-                            return (340 * 0.4 + 25) * hScale;
-                        }
-                        if (d == "三级关系") {
-                            return (340 * 0.4 + 25 * 2) * hScale;
-                        }
-                    })
-                    .attr("dy", "0.45em")
-                    .text(function(d) {
-                        if (d == "一级关系") {
-                            return "亲密度:[0,10]";
-                        }
-                        if (d == "二级关系") {
-                            return "亲密度:(10,20]";
-                        }
-                        if (d == "三级关系") {
-                            return "亲密度:(20, *)";
-                        }
-                    });
-
-                force.on("tick", function() {
-                    _this.dataConfig.nodes.forEach(function(item) {
-                        if (item.isCenter) {
-                            item.x = w / 2 - 50;
-                            item.y = h / 2 + 20;
-                        }
-                    });
-
-                    edges.attr("x1", function(d) {
-                            return d.source.x;
-                        })
-                        .attr("y1", function(d) {
-                            return d.source.y;
-                        })
-                        .attr("x2", function(d) {
-                            return d.target.x;
-                        })
-                        .attr("y2", function(d) {
-                            return d.target.y;
-                        });
-
-                    nodes.attr("cx", function(d) {
-                            return d.x;
-                        })
-                        .attr("cy", function(d) {
-                            return d.y;
-                        });
-                });
-                force.on("start", function() {
-                    console.log("start");
-                });
-                force.on("end", function() {
-                    console.log("end");
-                });
-
-                // nodes.on("mouseover", function (d) {
-                // 	var text = "关系人：" + d.personName + "<br />亲密度：" + d.value;
-                // 	if (d.isCenter) {
-                // 		text = "关系人：" + d.personName;
-                // 	}
-                // 	tooltip.html(text)
-                // 	.style("left", (d3.event.pageX + 10) + "px")
-                // 	.style("top", (d3.event.pageY + 10) + "px")
-                // 	.style("visibility", "visible");
-                // });
-                // nodes.on("mousemove", function (d) {
-                // 	tooltip.style("left", (d3.event.pageX + 10) + "px")
-                // 	.style("top", (d3.event.pageY + 10) + "px");
-                // });
-                // nodes.on("mouseout", function () {
-                // 	tooltip.style("visibility", "hidden");
-                // });
-            }
-        });
         myData = {
             max: 30,
             min: 0,
@@ -391,7 +175,41 @@
         var vm = new Vue({
             el: '#danren',
             data: {
-                forceData: myData
+                forceData: myData,
+                style: {
+                    width: 600,
+                    height: 400
+                }
+            },
+            methods: {
+                changeWH: function() {
+                    this.forceData = {
+                        max: 80,
+                        min: 0,
+                        nodes: [{
+                            name: 'a',
+                            isCenter: true,
+                            value: 0
+                        }, {
+                            name: 'b',
+                            value: 12
+                        }, {
+                            name: 'c',
+                            value: 6
+                        }],
+                        links: [{
+                            source: 0,
+                            target: 1
+                        }, {
+                            source: 0,
+                            target: 2
+                        }]
+                    };
+                    // this.style = {
+                    //     width: 400,
+                    //     height: 300
+                    // };
+                }
             }
         });
     </script>
