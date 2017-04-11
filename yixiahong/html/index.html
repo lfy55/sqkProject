@@ -3,15 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Magic Canvas</title>
+    <title>O2O外卖系统</title>
     <link rel="stylesheet" type="" href="../css/element.css">
     <link rel="stylesheet" type="" href="../css/index.css">
 </head>
 
 <body>
     <div id="app">
+        <div class="menu">
+            <span>登陆</span>
+            <span class="line"></span>
+            <span>注册</span>
+        </div>
         <div class="search">
-            <el-input size="large" placeholder="请输入内容" v-model="input">
+            <el-input size="large" placeholder="请搜索美食" v-model="input">
                 <el-button slot="append" icon="search"></el-button>
             </el-input>
         </div>

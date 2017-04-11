@@ -11,6 +11,39 @@ body {
     background: url(../img/bg.jpg) no-repeat #F4F4F4;
 }
 
+.menu {
+    position: absolute;
+    height: 40px;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(210, 210, 210, 0.5);
+    text-align: center;
+    box-sizing: border-box;
+    padding-right: 150px;
+}
+
+.menu span {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 22px;
+    text-align: center;
+    line-height: 40px;
+    color: #20a0ff;
+    float: right;
+}
+
+.menu span:hover {
+    color: #ffd161;
+}
+
+.menu .line {
+    box-sizing: border-box;
+    height: 40px;
+    border-right: 1px solid #20a0ff;
+    margin: 0px 10px;
+}
+
 .search {
     position: absolute;
     height: 100px;
