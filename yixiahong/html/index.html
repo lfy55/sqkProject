@@ -4,32 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>O2O外卖系统</title>
-    <link rel="stylesheet" type="" href="../css/element.css">
+    <link rel="stylesheet" type="" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="" href="../css/animate.css">
     <link rel="stylesheet" type="" href="../css/index.css">
 </head>
 
 <body>
     <div id="app">
         <div class="menu">
-            <span>登陆</span>
+            <span id="login">登陆</span>
             <span class="line"></span>
-            <span>注册</span>
+            <span id="register">注册</span>
         </div>
         <div class="search">
-            <el-input size="large" placeholder="请搜索美食" v-model="input">
-                <el-button slot="append" icon="search"></el-button>
-            </el-input>
+            <div class="input-group">
+                <input type="text" id="search-input" class="form-control" placeholder="请搜索美食">
+                <span class="input-group-addon" id="search-btn"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+            </div>
         </div>
     </div>
-
+    <div class="dlg login-margin">
+        <span class="glyphicon glyphicon-remove close" aria-hidden="true"></span>
+    </div>
+    <div class="dlg register-margin">
+        <span class="glyphicon glyphicon-remove close" aria-hidden="true"></span>
+    </div>
     <canvas id="reactive-bg-canvas"></canvas>
 </body>
 <script></script>
 <script src="../js/jquery-3.1.0.js"></script>
 <script src="../js/TweenLite.min.js"></script>
 <script src="../js/magic-canvas.js"></script>
-<script src="../js/vue.js"></script>
-<script src="../js/element.js"></script>
+<script src="../js/animate.js"></script>
 
 
 <script src="../js/my/index.js"></script>
