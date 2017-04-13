@@ -61,6 +61,7 @@ $('input').focus(function() {
 });
 
 $('.close').click(function() {
+    tips.hide();
     $(this).parent('.dlg').animateCss('fadeOut');
     setTimeout(() => {
         $(this).parent('.dlg').removeClass('show');
