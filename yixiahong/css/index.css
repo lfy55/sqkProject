@@ -114,11 +114,11 @@ body {
     width: 320px;
 }
 
-.error-tips {
+#error-tips {
     position: absolute;
     background: rgba(255, 6, 6, 0.8);
     width: 200px;
-    height: 60px;
+    height: auto;
     border-radius: 10px;
     top: calc(50% - 50px);
     left: calc(50% + 250px);

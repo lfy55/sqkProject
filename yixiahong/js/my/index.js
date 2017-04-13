@@ -16,7 +16,7 @@ function random_move() {
 };
 random_move();
 
-// 登陆注册事件
+// 登陆注册按钮点击事件
 $('#login').click(function() {
     console.log('登陆');
     $('.dlg').removeClass('show');
@@ -31,21 +31,55 @@ $('#register').click(function() {
     $('.register-margin').addClass('show');
 });
 
+/*
+ *进行表单验证
+ */
+// 用户名和密码的正则
+var namereg = /^[a-z0-9_]{3,15}$/;
+var pwdreg = /^[a-z0-9_]{6,15}$/;
+var tips = $('#error-tips');
 $('#login-submit').click(function() {
     var name = $('#loginName').val();
     var pwd = $('#loginPwd').val();
-    var tips = $('#error-tips');
-    if (name == '') {
-        tips.text('用户名不能为空');
+    if (!namereg.test(name)) {
+        tips.text('用户名应该为3-15个字母数字下划线');
         tips.show();
         return false;
     }
-    if (name.length > 15 || name.length < 3) {
-        tips.text('用户名不能为空');
+    if (!pwdreg.test(pwd)) {
+        tips.text('密码应该为6-15个字母数字下划线');
         tips.show();
         return false;
     }
+    // do login ...
 });
+$('#register-submit').click(function() {
+    var name = $('#registerName').val();
+    var pwd = $('#registerPwd').val();
+    var pwd2 = $('#registerPwd2').val();
+    if (!namereg.test(name)) {
+        tips.text('用户名应该为3-15个字母数字下划线');
+        tips.show();
+        return false;
+    }
+    if (!pwdreg.test(pwd)) {
+        tips.text('密码应该为6-15个字母数字下划线');
+        tips.show();
+        return false;
+    }
+    if (pwd2 !== pwd) {
+        tips.text('两次密码输入不一致');
+        tips.show();
+        return false;
+    }
+    // do register ...
+});
+
+$('input').focus(function() {
+    tips.hide();
+});
+
+
 
 $('.close').click(function() {
     $(this).parent('.dlg').animateCss('fadeOut');
