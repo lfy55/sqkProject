@@ -10,6 +10,10 @@ var chartsList = [{
     "name": "单人靶向图",
     "url": "baxiangguanxitu.html",
     "img": "img/baxiangguangxi.png"
+}, {
+    "name": "自定义地图 流向图",
+    "url": "customMapFlow/index.html",
+    "img": "img/customMapFlow.png"
 }]
 
 new Vue({
