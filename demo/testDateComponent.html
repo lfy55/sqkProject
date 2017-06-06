@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <style>
+        #time-margin {
+            margin: 100px;
+        }
+
+        .el-date-editor--time-select {
+            max-width: 120px;
+        }
+
+        .el-date-editor--month {
+            max-width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="time-margin">
+            <select-hour-range v-model="time"></select-hour-range>
+
+            <p>开始时间{{time[0]}}</p>
+            <p>结束时间{{time[1]}}</p>
+        </div>
+        <div id="date-margin">
+            <select-month-range v-model="dates"></select-month-range>
+        </div>
+    </div>
+    <!-- 引入Vue -->
+    <script src="//vuejs.org/js/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        Date.prototype.format = function (format) {
+            var o = {
+                "M+": this.getMonth() + 1, //month 
+                "d+": this.getDate(), //day 
+                "h+": this.getHours(), //hour 
+                "m+": this.getMinutes(), //minute 
+                "s+": this.getSeconds(), //second 
+                "q+": Math.floor((this.getMonth() + 3) / 3), //quarter 
+                "S": this.getMilliseconds()
+                //millisecond 
+            }
+            if (/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            }
+
+            for (var k in o) {
+                if (new RegExp("(" + k + ")").test(format)) {
+                    format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+                }
+            }
+            return format;
+        }
+        Vue.component('select-hour-range', {
+            template: `<span>
+                <el-time-select placeholder="起始时间" v-model="startTime" :picker-options="{
+      start: '00:00',
+      step: '01:00',
+      end: '24:00',
+      maxTime: endTime
+    }"></el-time-select>-<el-time-select placeholder="结束时间" v-model="endTime" :picker-options="{
+      start: '00:00',
+      step: '01:00',
+      end: '24:00',
+      minTime: startTime
+    }">
+            </el-time-select>
+            </span>`,
+            data() {
+                return {
+                    startTime: '',
+                    endTime: '',
+                    times: ['', '']
+                }
+            },
+            watch: {
+                startTime() {
+                    if (this.startTime) {
+                        let startHour = +this.startTime.slice(0, 2);
+                        this.times.splice(0, 1, new Date(new Date().setHours(startHour)).format('yyyy-MM-dd hh:00:00'));
+                    }
+                    if (this.endTime) {
+                        let endHour = +this.endTime.slice(0, 2);
+                        this.times.splice(1, 1, new Date(new Date().setHours(endHour)).format('yyyy-MM-dd hh:00:00'));
+                    }
+                    this.$emit('input', this.times);
+                },
+                endTime() {
+                    if (this.startTime) {
+                        let startHour = +this.startTime.slice(0, 2);
+                        this.times.splice(0, 1, new Date(new Date().setHours(startHour)).format('yyyy-MM-dd hh:00:00'));
+                    } else {
+                        this.times.splice(0, 1, '');
+                    }
+                    if (this.endTime) {
+                        let endHour = +this.endTime.slice(0, 2);
+                        this.times.splice(1, 1, new Date(new Date().setHours(endHour)).format('yyyy-MM-dd hh:00:00'));
+                    } else {
+                        this.times.splice(1, 1, '');
+                    }
+                    this.$emit('input', this.times);
+                },
+            }
+        });
+        Vue.component('select-month-range', {
+            template: `<span>
+            <el-date-picker v-model="startDate" :picker-options="{disabledDate:startDateDisable}" type="month" placeholder="起始时间">
+            </el-date-picker>-<el-date-picker v-model="endDate" :picker-options="{disabledDate:endDateDisable}" type="month" placeholder="结束时间">
+            </el-date-picker>
+            </span>`,
+            data() {
+                return {
+                    startDate: '',
+                    endDate: '',
+                    dates: ['', '']
+                }
+            },
+            methods: {
+                startDateDisable(nowDate) {
+                    if (this.endDate) {
+                        return this.endDate - nowDate > 0 ? false : true;
+                    }
+                    return false;
+                },
+                endDateDisable(nowDate) {
+                    if (this.startDate) {
+                        if (this.startDate.getYear() > nowDate.getYear())
+                            return true;
+                        if (this.startDate.getMonth() >= nowDate.getMonth())
+                            return true;
+                    }
+                    return false;
+                }
+            },
+            watch: {
+                startDate() {
+                    this.dates.splice(0, 1, this.startDate);
+                    this.dates.splice(1, 1, this.endDate);
+                    this.$emit('input', this.dates);
+                },
+                endDate() {
+                    this.dates.splice(0, 1, this.startDate);
+                    this.dates.splice(1, 1, this.endDate);
+                    this.$emit('input', this.dates);
+                }
+            }
+        });
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                time: [],
+                dates: []
+            }
+        });
+    </script>
+</body>
+
+</html>
