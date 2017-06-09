@@ -135,10 +135,12 @@
                 },
                 endDateDisable(nowDate) {
                     if (this.startDate) {
-                        if (this.startDate.getYear() > nowDate.getYear())
+                        if (this.startDate.getYear() > nowDate.getYear()) {
                             return true;
-                        if (this.startDate.getMonth() >= nowDate.getMonth())
-                            return true;
+                        } else if (this.startDate.getYear() === nowDate.getYear()) {
+                            if (this.startDate.getMonth() >= nowDate.getMonth())
+                                return true;
+                        }
                     }
                     return false;
                 }
