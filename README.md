@@ -11,4 +11,4 @@
 ## DEMO LIST
 
  - [小时和月份选择器](/demo/testDateComponent.html)
- - [第二次技术分享PPT](/share-ppt@2/page1.html)
+ - [第二次技术分享PPT](/demo/share-ppt@2/page1.html)
