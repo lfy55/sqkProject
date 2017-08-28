@@ -14,6 +14,10 @@ var chartsList = [{
     "name": "自定义地图 流向图",
     "url": "customMapFlow/index.html",
     "img": "img/customMapFlow.png"
+}, {
+    "name": "分段渐变柱状图",
+    "url": "fenduanBar.html",
+    "img": "img/fenduanbar.png"
 }]
 
 new Vue({
