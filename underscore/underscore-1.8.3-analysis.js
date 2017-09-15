@@ -513,7 +513,6 @@
   // 如果是 object，则忽略 key 值，只需要查找 value 值即可
   // 即该 obj 中是否有指定的 value 值
   // 返回布尔值
-  // Fri Sep 15 2017 18:37:36 GMT+0800 (中国标准时间) 当前阅读
   _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     // 如果是对象，返回 values 组成的数组
     if (!isArrayLike(obj)) obj = _.values(obj);
@@ -612,7 +611,13 @@
       _.each(obj, function(value, index, list) {
         // 经过迭代函数后的值
         computed = iteratee(value, index, list);
-        // && 的优先级高于 ||
+        // && 的优先级高于 ||?
+        /**
+         * 首先判断 computed > lastComputed ，如果不成成立则只有可能是 computed === -Infinity
+         * 则仅有 result 还没有被赋值过时，将当前 value 赋值给 result 
+         * 以此保证当所有项的计算等于 -Infinity 时当前函数能返回第一项
+         * （如果数组中前 n 项是 -Infinity 时返回第 n + 1 项, 如果数组中全是 -Infinity 时返回最后一项）
+         */
         if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
           result = value;
           lastComputed = computed;
@@ -731,6 +736,7 @@
   // behavior 是一个函数参数
   // _.groupBy, _.indexBy 以及 _.countBy 其实都是对数组元素进行分类
   // 分类规则就是 behavior 函数
+  // Fri Sep 15 2017 23:30:49 GMT+0800 (中国标准时间)  上次阅读
   var group = function(behavior) {
     return function(obj, iteratee, context) {
       // 返回结果是一个对象
