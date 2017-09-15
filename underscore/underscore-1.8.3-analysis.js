@@ -291,6 +291,11 @@
   // notice: _.each 方法不能用 return 跳出循环（同样，Array.prototype.forEach 也不行）
   _.each = _.forEach = function(obj, iteratee, context) {
     // 根据 context 确定不同的迭代函数
+    /**
+     * 返回一个函数，该函数接受三个参数，分别为 (item, index, array)（(value, key, obj) for object）
+     * 该函数将`context`绑定在`iteratee`上，给`iteratee`传入它接受的三个参数
+     * 并执行`iteratee`函数
+     */
     iteratee = optimizeCb(iteratee, context);
 
     var i, length;
@@ -325,7 +330,11 @@
   // 对每个元素执行 iteratee 迭代方法
   // 将结果保存到新的数组中，并返回
   _.map = _.collect = function(obj, iteratee, context) {
-    // 根据 context 确定不同的迭代函数
+    // 根据 context 确定不同的迭代函数 ?
+    /**
+     * 根据 iteratee 确定不同的迭代函数
+     * 当前情况应该等同于 iteratee = optimizeCb(iteratee, context);
+     */
     iteratee = cb(iteratee, context);
 
     // 如果传参是对象，则获取它的 keys 值数组（短路表达式）
@@ -350,6 +359,10 @@
   // Create a reducing function iterating left or right.
   // dir === 1 -> _.reduce
   // dir === -1 -> _.reduceRight
+  /**
+   * 创建一个迭代函数
+   * 既可以迭代数组又可以迭代对象
+   */
   function createReduce(dir) {
     // Optimized iterator function as using arguments.length
     // in the main function will deoptimize the, see #1991.
@@ -500,6 +513,7 @@
   // 如果是 object，则忽略 key 值，只需要查找 value 值即可
   // 即该 obj 中是否有指定的 value 值
   // 返回布尔值
+  // Fri Sep 15 2017 18:37:36 GMT+0800 (中国标准时间) 当前阅读
   _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     // 如果是对象，返回 values 组成的数组
     if (!isArrayLike(obj)) obj = _.values(obj);
