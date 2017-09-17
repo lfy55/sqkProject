@@ -736,7 +736,10 @@
   // behavior 是一个函数参数
   // _.groupBy, _.indexBy 以及 _.countBy 其实都是对数组元素进行分类
   // 分类规则就是 behavior 函数
-  // Fri Sep 15 2017 23:30:49 GMT+0800 (中国标准时间)  上次阅读
+  /**
+   * group 函数接受一个函数（该函数需要接受三个参数(result, value, key)并将 value 和 key 增强进 result 对象中）
+   * 并返回一个函数（该函数接受2-3个参数，需要操作的对象，生成新 key 的回调函数，第三个参数可选，为回调函数中 this 指向的上下文）
+   */
   var group = function(behavior) {
     return function(obj, iteratee, context) {
       // 返回结果是一个对象
@@ -900,7 +903,7 @@
   // Trim out all falsy values from an array.
   // 去掉数组中所有的假值
   // 返回数组副本
-  // JavaScript 中的假值包括 false、null、undefined、''、NaN、0
+  // JavaScript 中的假值包括 false 、 null 、 undefined 、 '' 、 NaN 、 0
   // 联想 PHP 中的 array_filter() 函数
   // _.identity = function(value) {
   //   return value;
@@ -1008,6 +1011,7 @@
     // 之后便可以调用 _.difference 方法
     return _.difference(array, slice.call(arguments, 1));
   };
+  // Sun Sep 17 2017 20:32:14 GMT+0800 (中国标准时间) 上次阅读
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
