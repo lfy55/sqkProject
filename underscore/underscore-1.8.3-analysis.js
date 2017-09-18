@@ -152,6 +152,13 @@
   // A mostly-internal function to generate callbacks that can be applied
   // to each element in a collection, returning the desired result — either
   // identity, an arbitrary callback, a property matcher, or a property accessor.
+  /**
+   * 根据传入的参数返回一个函数
+   * 如果 value 为underfined 则返回一个返回参数本身的函数
+   * 如果 value 是一个函数，则返回一个接受响应个数参数的函数
+   * 如果 value 是一个对象，则返回一个接受对象作为参数并判断该对象是否包含 value 所有键值对的函数，该函数返回 true or false
+   * 如果 value 是一个值，则返回一个接受对象作为参数并返回该对象 value 的值的函数
+   */
   var cb = function(value, context, argCount) {
     if (value == null) return _.identity;
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
@@ -1011,7 +1018,6 @@
     // 之后便可以调用 _.difference 方法
     return _.difference(array, slice.call(arguments, 1));
   };
-  // Sun Sep 17 2017 20:32:14 GMT+0800 (中国标准时间) 上次阅读
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
@@ -1024,6 +1030,11 @@
   // 对迭代之后的结果进行去重
   // 返回去重后的数组（array 的子数组）
   // PS: 暴露的 API 中没 context 参数
+  /**
+   * PS: isSorted 为 true 时传递回调函数 iteratee 
+   *      会导致该方法仍使用计算后的数值与前一个是否相等来去重
+   *      可能会导致计算后的去重数组扔包含重复元素（ iteratee 使用了index或者随机来计算）
+   */
   // _.uniq(array, [isSorted], [iteratee])
   _.uniq = _.unique = function(array, isSorted, iteratee, context) {
     // 没有传入 isSorted 参数
@@ -1034,7 +1045,7 @@
       isSorted = false;
     }
 
-    // 如果有迭代函数
+    // 如果有迭代函数如果有迭代函数
     // 则根据 this 指向二次返回新的迭代函数
     if (iteratee != null)
       iteratee = cb(iteratee, context);
@@ -1087,6 +1098,9 @@
   // ========== //
   // 将多个数组的元素集中到一个数组中
   // 并且去重，返回数组副本
+  /**
+   * 求多个数组的并集
+   */
   _.union = function() {
     // 首先用 flatten 方法将传入的数组展开成一个数组
     // 然后就可以愉快地调用 _.uniq 方法了
@@ -1170,6 +1184,11 @@
   // ===== //
   // 将多个数组中相同位置的元素归类
   // 返回一个数组
+  /**
+   * _.zip 与 _.unzip 可以是同一个函数
+   * 不过 _.zip 接受多个一维数组
+   * _.unzip 接受一个二维数组
+   */
   _.zip = function() {
     return _.unzip(arguments);
   };
@@ -1198,6 +1217,10 @@
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.
   // 将数组转化为对象
+  /**
+   * 接受两个数组（第一个数组的值为 key 第二个数组的值为 value ）组成对象（如果第一个数组有重复只会生成一个 key 后面的值会覆盖前面的）
+   * 或者接受一个二维数组
+   */
   _.object = function(list, values) {
     var result = {};
     for (var i = 0, length = getLength(list); i < length; i++) {
@@ -1257,8 +1280,12 @@
   // => 1
   // ===== //
   // 二分查找
-  // 将一个元素插入已排序的数组
+  // 将一个元素插入已排序的数组(并没有真正的插入进去)
   // 返回该插入的位置下标
+  /**
+   * 如果数组的元素是对象时需要传入一个回调函数或者对象或者key
+   * 来计算对象的大小
+   */
   // _.sortedIndex(list, value, [iteratee], [context])
   _.sortedIndex = function(array, obj, iteratee, context) {
     // 注意 cb 方法
@@ -1284,6 +1311,9 @@
   };
 
   // Generator function to create the indexOf and lastIndexOf functions
+  /**
+   * 一个创建 indexOf 和 lastIndexOf 函数的函数
+   */
   // _.indexOf = createIndexFinder(1, _.findIndex, _.sortedIndex);
   // _.lastIndexOf = createIndexFinder(-1, _.findLastIndex);
   function createIndexFinder(dir, predicateFind, sortedIndex) {
@@ -1384,7 +1414,7 @@
 
     return range;
   };
-
+  // Mon Sep 18 2017 20:57:21 GMT+0800 (中国标准时间) 上次阅读
 
   // Function (ahem) Functions
   // 函数的扩展方法
