@@ -236,6 +236,9 @@
     // 如果浏览器支持 ES5 Object.create
     if (nativeCreate) return nativeCreate(prototype);
 
+    /**
+     * var Ctor = function () { };
+     */
     Ctor.prototype = prototype;
     var result = new Ctor;
     Ctor.prototype = null;
@@ -1423,7 +1426,9 @@
 
   // Determines whether to execute a function as a constructor
   // or a normal function with the provided arguments
-  // Mon Sep 18 2017 20:57:21 GMT+0800 (中国标准时间) 上次阅读
+  /**
+   * 鉴定一个函数是当做构造函数执行还是普通函数执行
+   */
   var executeBound = function (sourceFunc, boundFunc, context, callingContext, args) {
     // 非 new 调用 _.bind 返回的方法（即 bound）
     // callingContext 不是 boundFunc 的一个实例
@@ -1496,7 +1501,7 @@
   // _.partial 能返回一个方法
   // pre-fill 该方法的一些参数
   _.partial = function (func) {
-    // 提取希望 pre-fill 的参数
+    // 提取希望 pre-fill 的参数提取希望 pre-fill 的参数
     // 如果传入的是 _，则这个位置的参数暂时空着，等待手动填入
     var boundArgs = slice.call(arguments, 1);
 
@@ -1523,6 +1528,13 @@
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
   // 指定一系列方法（methodNames）中的 this 指向（object）
+  /**
+   * methodNames 指的是 obj 中存在的函数的函数名
+   * typeof methodNames[0] === "string"
+   * _.isString(methodNames[0]) === true
+   * 让 methodNames 中的所有在 obj 上的函数的 this 都绑定在 obj 上
+   * 并返回 obj
+   */
   // _.bindAll(object, *methodNames)
   _.bindAll = function (obj) {
     var i, length = arguments.length, key;
@@ -1602,6 +1614,7 @@
   // 如果传入 *arguments，会被当做参数，和 _.delay 调用方式类似（少了第二个参数）
   // 其实核心还是调用了 _.delay 方法，但第二个参数（wait 参数）设置了默认值为 1
   // 如何使得方法能设置默认值？用 _.partial 方法
+  // Sun Sep 24 2017 11:31:57 GMT+0800 (中国标准时间) 上次阅读
   _.defer = _.partial(_.delay, _, 1);
 
   // Returns a function, that, when invoked, will only be triggered at most once
