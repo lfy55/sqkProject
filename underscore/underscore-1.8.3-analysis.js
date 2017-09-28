@@ -1614,7 +1614,7 @@
   // 如果传入 *arguments，会被当做参数，和 _.delay 调用方式类似（少了第二个参数）
   // 其实核心还是调用了 _.delay 方法，但第二个参数（wait 参数）设置了默认值为 1
   // 如何使得方法能设置默认值？用 _.partial 方法
-  // Sun Sep 24 2017 11:31:57 GMT+0800 (中国标准时间) 上次阅读
+  // Thu Sep 28 2017 20:39:55 GMT+0800 (中国标准时间) 上次阅读
   _.defer = _.partial(_.delay, _, 1);
 
   // Returns a function, that, when invoked, will only be triggered at most once
