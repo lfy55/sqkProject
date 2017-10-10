@@ -1614,7 +1614,6 @@
   // 如果传入 *arguments，会被当做参数，和 _.delay 调用方式类似（少了第二个参数）
   // 其实核心还是调用了 _.delay 方法，但第二个参数（wait 参数）设置了默认值为 1
   // 如何使得方法能设置默认值？用 _.partial 方法
-  // Thu Sep 28 2017 20:39:55 GMT+0800 (中国标准时间) 上次阅读
   _.defer = _.partial(_.delay, _, 1);
 
   // Returns a function, that, when invoked, will only be triggered at most once
@@ -1923,6 +1922,9 @@
   // keys 为键数组
   // 利用 JavaScript 按值传递的特点
   // 传入数组作为参数，能直接改变数组的值
+  /**
+   * 对 <IE9 的浏览器进行 keys 的增强
+   */
   function collectNonEnumProps(obj, keys) {
     var nonEnumIdx = nonEnumerableProps.length;
     var constructor = obj.constructor;
@@ -2538,6 +2540,10 @@
   // 这里的对象包括 function 和 object
   _.isObject = function (obj) {
     var type = typeof obj;
+    /**
+     * 排除掉 null 
+     * typeof null === 'object' 但是 !!null === false
+     */
     return type === 'function' || type === 'object' && !!obj;
   };
 
@@ -2772,6 +2778,13 @@
 
   // If the value of the named `property` is a function then invoke it with the
   // `object` as context; otherwise, return it.
+  /**
+   * 如果 `object` 的 `property` 属性值是一个函数，则以 `object` 作为上下文执行它
+   * 否则直接返回当前属性值
+   * 如果当前 `property` 的值为 `undefined` 或者不存在切第三个参数为函数
+   * 则返回第三个参数以`object`为上下文执行的结果
+   * 如果第三个参数不为函数或不存在则返回第三个参数或`undefined`
+   */
   _.result = function (object, property, fallback) {
     var value = object == null ? void 0 : object[property];
     if (value === void 0) {
@@ -2780,6 +2793,7 @@
     return _.isFunction(value) ? value.call(object) : value;
   };
 
+  // "Tue Oct 10 2017 18:18:12 GMT+0800 (中国标准时间)" 上次阅读
   // Generate a unique integer id (unique within the entire client session).
   // Useful for temporary DOM ids.
   // 生成客户端临时的 DOM ids
