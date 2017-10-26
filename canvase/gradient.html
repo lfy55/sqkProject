@@ -7,27 +7,51 @@
 
 <body>
   <h1>渐变色</h1>
+  <div class="radios">
+    选择渐变方式:
+    <input type="radio" name="gradient" checked id="Linear">Linear
+    <input type="radio" name="gradient" id="Radial">Radial
+  </div>
   <canvas id="rect" width="600" height="600"></canvas>
 
   <script>
     var canvas = document.getElementById('rect'),
-      context = canvas.getContext('2d')
+      context = canvas.getContext('2d'),
+      linear = document.getElementById('Linear'),
+      radial = document.getElementById('Radial')
 
     canvas.style.border = "solid 1px red"
 
-    // var gradient = context.createLinearGradient(0, 0, canvas.width, 0)
-    var gradient = context.createRadialGradient(canvas.width / 2, canvas.height, 0, canvas.width / 2, 0, 100)
+    function createGradient(gradientType) {
+      var gradient
+      if (gradientType === 'Linear') {
+        gradient = context.createLinearGradient(0, 0, canvas.width, 0)
+      } else {
+        gradient = context.createRadialGradient(canvas.width / 2, canvas.height, 0, canvas.width / 2, 0, 100)
+      }
 
 
-    gradient.addColorStop(0, 'blue')
-    gradient.addColorStop(0.25, 'white')
-    gradient.addColorStop(0.5, 'purple')
-    gradient.addColorStop(0.75, 'red')
-    gradient.addColorStop(1.0, 'yellow')
+      gradient.addColorStop(0, 'blue')
+      gradient.addColorStop(0.25, 'white')
+      gradient.addColorStop(0.5, 'purple')
+      gradient.addColorStop(0.75, 'red')
+      gradient.addColorStop(1.0, 'yellow')
 
+      return gradient
+    }
 
-    context.fillStyle = gradient
-    context.fillRect(0, 0, canvas.width, canvas.height)
+    linear.onchange = function () {
+      drawGradient('Linear')
+    }
+    radial.onchange = function () {
+      drawGradient('Radial')
+    }
+    function drawGradient(gradientType) {
+      context.fillStyle = createGradient(gradientType)
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      context.fillRect(0, 0, canvas.width, canvas.height)
+    }
+    drawGradient('Linear')
   </script>
 </body>
 
