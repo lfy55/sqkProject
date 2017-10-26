@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>图案</title>
+</head>
+
+<body>
+  <h1>图案</h1>
+  <div class="radios">
+    <input type="radio" name="patternRadio" checked id="repeat">repeat
+    <input type="radio" name="patternRadio" id="repeat-x">repeat-x
+    <input type="radio" name="patternRadio" id="repeat-y">repeat-y
+    <input type="radio" name="patternRadio" id="no-repeat">no-repeat
+  </div>
+  <canvas id="rect" width="600" height="600"></canvas>
+
+  <script>
+    var canvas = document.getElementById('rect'),
+      context = canvas.getContext('2d'),
+      repeat = document.getElementById('repeat'),
+      repeatX = document.getElementById('repeat-x'),
+      repeatY = document.getElementById('repeat-y'),
+      noRepeat = document.getElementById('no-repeat'),
+      img = new Image()
+
+    canvas.style.border = "solid 1px red"
+
+    function fillCanvsWidthPattern(repeatType) {
+      var pattern = context.createPattern(img, repeatType)
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      context.fillStyle = pattern
+      context.fillRect(0, 0, canvas.width, canvas.height)
+    }
+    img.src = './img/logo.png'
+    img.onload = function () {
+      fillCanvsWidthPattern('repeat')
+      repeat.onchange = function (e) {
+        fillCanvsWidthPattern('repeat')
+      }
+      repeatX.onchange = function (e) {
+        fillCanvsWidthPattern('repeat-x')
+      }
+      repeatY.onchange = function (e) {
+        fillCanvsWidthPattern('repeat-y')
+      }
+      noRepeat.onchange = function (e) {
+        fillCanvsWidthPattern('no-repeat')
+      }
+    }
+  </script>
+</body>
+
+</html>
