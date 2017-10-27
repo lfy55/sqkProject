@@ -1,0 +1,85 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>路径</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>路径</h1>
+    <div class="radios">
+      填写路径参数:
+      <br> 起点x:
+      <input type="number" v-model="x">
+      <br> 起点y:
+      <input type="number" v-model="y">
+      <br> 半径r:
+      <input type="number" v-model="r">
+      <br> 开始半径:
+      <input type="number" v-model="start">*PI
+      <br> 结束半径:
+      <input type="number" v-model="end">*PI
+      <br> 是否顺时针:
+      <input type="checkbox" v-model="isClockwise">
+      <br> 是否清空图案:
+      <input type="checkbox" v-model="isClear">
+      <br> 是否关闭路径图案:
+      <input type="checkbox" v-model="isClose">
+      <br>
+      <button @click="draw">重新绘制</button>
+    </div>
+  </div>
+  <canvas id="rect" width="600" height="600"></canvas>
+  <script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
+  <script>
+    var canvas = document.getElementById('rect'),
+      context = canvas.getContext('2d'),
+      PATH_X = 100,
+      PATH_Y = 100,
+      PATH_R = 80,
+      PATH_START = 0,
+      PATH_END = 1.5 * Math.PI
+
+    canvas.style.border = "solid 1px red"
+
+    window.app = new Vue({
+      el: '#app',
+      data: {
+        x: PATH_X,
+        y: PATH_Y,
+        r: PATH_R,
+        start: 0,
+        end: 1.5,
+        isClockwise: true,
+        isClear: true,
+        isClose: false,
+      },
+      methods: {
+        draw: function () {
+          drawPath(this.x, this.y, this.r, this.start * Math.PI, this.end * Math.PI, !this.isClockwise, this.isClear, this.isClose)
+        }
+      },
+    })
+    function drawPath(x, y, r, start, end, anticlockwise, isClear, isClose) {
+      if (isClear) {
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.beginPath()
+      }
+      context.arc(x, y, r, start, end, anticlockwise)
+      if (isClose) {
+        context.closePath()
+      }
+      context.stroke()
+    }
+    drawPath(PATH_X, PATH_Y, PATH_R, PATH_START, PATH_END, false)
+
+    // context.beginPath()
+    // context.rect(10, 10, 50, 50)
+    // context.arc(60, 60, 20, 0, 1 * Math.PI)
+    // context.closePath()
+    // context.stroke()
+  </script>
+</body>
+
+</html>

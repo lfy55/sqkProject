@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.8/lib/theme-default/index.css">
+  <link rel="stylesheet" href="./css/api.css">
+  <title>Canvas API</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Canvas API</h1>
+    <div class="search">
+      <el-input placeholder="请输入内容" v-model="keyword">
+        <el-button slot="append" icon="search"></el-button>
+      </el-input>
+    </div>
+
+    <div>
+      <div class="title">
+        <div class="name">API</div>
+        <div class="param">参数</div>
+        <div class="detail">详情</div>
+        <div class="link">链接</div>
+      </div>
+      <div class="api-item" v-for="api in allAPI" :key="api.name">
+        <div class="name">
+          <code>
+            {{api.name}}
+          </code>
+        </div>
+        <div class="param">
+          <span v-for="param in api.params">
+            <code>{{param.code}}</code> : {{param.detail}}<br></span>
+        </div>
+        <div class="detail" v-html="getHTML(api.detail)">
+          
+        </div>
+        <div class="link">
+          <a :href="api.link" v-if="api.link" target="_blank">MDN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
+  <script src="https://unpkg.com/element-ui@1.4.8/lib/index.js"></script>
+  <script src="./js/api.js"></script>
+</body>
+
+</html>
