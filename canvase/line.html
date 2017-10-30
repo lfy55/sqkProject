@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>线段</title>
+</head>
+
+<body>
+  <h1>点击红色区域来画线</h1>
+  <button onclick="restart()">重新开始</button>
+  <button onclick="clearRect()">清空区域</button><br>
+  <canvas id="rect" width="600" height="600"></canvas>
+
+  <script>
+    var canvas = document.getElementById('rect'),
+      context = canvas.getContext('2d'),
+      lastPoint = null
+
+    canvas.style.border = "solid 1px red"
+    context.lineWidth = 1
+    context.strokeColor = 'red'
+
+    function drawLine(x, y) {
+      if (lastPoint) {
+        context.beginPath()
+        context.moveTo(lastPoint.x, lastPoint.y)
+        context.lineTo(x, y)
+        context.stroke()
+      }
+      lastPoint = { x: x, y: y }
+    }
+
+    canvas.onmousedown = function (e) {
+      drawLine(e.offsetX, e.offsetY)
+    }
+    function restart() {
+      lastPoint = null
+    }
+
+    function clearRect() {
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      lastPoint = null
+    }
+  </script>
+</body>
+
+</html>

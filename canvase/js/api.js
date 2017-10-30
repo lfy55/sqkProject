@@ -114,7 +114,8 @@
             },
           ],
           detail: '将矩形内的所有像素清除',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/clearRect'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/clearRect',
+          demo: './rect.html',
         },
         {
           name: 'strokeRect(x, y, w, h)',
@@ -137,7 +138,8 @@
             },
           ],
           detail: '依据以下属性将矩形描边：<br> #strokeStyle#,#lineWidth#,#lineJoin#,#miterLimit#',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/strokeRect'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/strokeRect',
+          demo: './rect.html',
         },
         {
           name: 'fillRect(x, y, w, h)',
@@ -160,30 +162,8 @@
             },
           ],
           detail: '使用#fillStyle#属性填充矩形，当宽度或高度为0时不会进行绘制',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/fillRect'
-        },
-        {
-          name: 'fillRect(x, y, w, h)',
-          params: [
-            {
-              code: 'x',
-              detail: '必选-起点x坐标'
-            },
-            {
-              code: 'y',
-              detail: '必选-起点y坐标'
-            },
-            {
-              code: 'w',
-              detail: '必选-矩形的宽度'
-            },
-            {
-              code: 'h',
-              detail: '必选-矩形的高度'
-            },
-          ],
-          detail: '使用#fillStyle#属性填充矩形，当宽度或高度为0时不会进行绘制',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/fillRect'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/fillRect',
+          demo: './rect.html',
         },
         {
           name: 'createLinearGradient(x, y, x1, y1)',
@@ -206,7 +186,8 @@
             },
           ],
           detail: '创建一个线性渐变，返回一个#CanvasGradient#实例',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/createLinearGradient'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/createLinearGradient',
+          demo: './gradient.html',
         },
         {
           name: 'createRadialGradient(x, y, r, x1, y1, r1)',
@@ -237,7 +218,8 @@
             },
           ],
           detail: '创建一个放射（径向）渐变，返回一个#CanvasGradient#实例',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/createRadialGradient'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/createRadialGradient',
+          demo: './gradient.html',
         },
         {
           name: 'CanvasGradient.addColorStop(offset, color)',
@@ -267,21 +249,22 @@
             },
           ],
           detail: '创建一个可以用来在canvas之中为图形和文本进行描边与填充的团',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasGradient/createPattern'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/createPattern',
+          demo: './pattern.html',
         },
         {
           name: 'beginPath()',
           params: [
           ],
           detail: '将当前路径中子路径全部清除，重置当前路径',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasGradient/beginPath'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/beginPath'
         },
         {
           name: 'closePath()',
           params: [
           ],
           detail: '显式的关闭当前路径，用于关闭开放的路径',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasGradient/closePath'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/closePath'
         },
         {
           name: 'arc(x, y, radius, startAngle, endAngle, anticlockwise)',
@@ -312,21 +295,22 @@
             },
           ],
           detail: `是canvas绘制圆弧路径的方法，如果调用该方法时已经有路径则将前一路径的终点与当前路径的起点连接`,
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/arc'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/arc',
+          demo: './path.html'
         },
         {
           name: 'fill()',
           params: [
           ],
           detail: '根据#fillStyle#填充当前或已存在的路径，默认采用非零环绕原则',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasGradient/fill'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/fill'
         },
         {
           name: 'stroke()',
           params: [
           ],
           detail: '采用非零环绕原则根据#strokeStyle#绘制当前或已存在的路径',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasGradient/stroke'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/stroke'
         },
         {
           name: 'rect(x, y, w, h)',
@@ -349,7 +333,7 @@
             }
           ],
           detail: '创建一个矩形路径',
-          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasGradient/stroke'
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/stroke'
         },
         {
           name: '非零环绕原则',
@@ -357,6 +341,36 @@
           ],
           detail: '非零环绕原则（nonzero winding rule）是这么判断有自我交叉的路径的：对于路径中的任意给定区域，从该区域内部画一条足够长的线，使此线段的终点完全落在路径范围之外，接下来将计数器初始化为0，当这条线与路径相交时就改变计数器的值，如果是与路径的顺时针部分相交则加1，如果是与路径的逆时针部分相交则减1。最后，如果计数器不为 0 则此区域就在路径内部，调用#fill#方法时就会进行填充',
           link: ''
+        },
+        {
+          name: 'moveTo(x,y)',
+          params: [
+            {
+              code: 'x',
+              detail: '必选-移到的点的x坐标'
+            },
+            {
+              code: 'y',
+              detail: '必选-移到的点的y坐标'
+            },
+          ],
+          detail: '向当前路径中添加一条子路径，但是只包含当前点，该方法不会从当前路径中清除任何子路径',
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/moveTo'
+        },
+        {
+          name: 'lineTo(x,y)',
+          params: [
+            {
+              code: 'x',
+              detail: '必选-移到的点的x坐标'
+            },
+            {
+              code: 'y',
+              detail: '必选-移到的点的y坐标'
+            },
+          ],
+          detail: '如果当前路径中没有子路径，那么这个方法会像#moveTo#一样：它会创建一条新的子路径，包含了传入的那个点。如果当前路径中存在子路径，那么该方法会将你所指定的点加入当前路径',
+          link: 'https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/lineTo'
         },
       ]
     },
