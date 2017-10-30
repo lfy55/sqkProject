@@ -7,3 +7,5 @@
   - [矩形](./rect.html)
   - [图案](./pattern.html)
   - [渐变](./gradient.html)
+  - [路径](./path.html)
+  - [线段](./line.html)

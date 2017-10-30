@@ -8,6 +8,10 @@
 
 ### [我的可视化图表库](https://lfy55.github.io/sqkProject/charts/index.html)
 
+## Canvas
+
+### [Canvas学习相关内容](https://lfy55.github.io/sqkProject/canvase/)
+
 ## DEMO LIST
 
  - [小时和月份选择器](https://lfy55.github.io/sqkProject/demo/testDateComponent.html)
